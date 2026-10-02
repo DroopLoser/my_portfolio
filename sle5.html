@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aditya Dubey — Intelligent systems, from models to interfaces</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#15171b;--ink:#ebe8e1;--mute:#8d939c;--line:#2b2f36;--cy:#62d2d8;--am:#dba545;--gr:#b7e35a;--soft:#c9c6bf;--line2:#454b55;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#f1eee7;--ink:#1a1c20;--mute:#5f656e;--line:#d2cec4;--line2:#b4afa3;--soft:#3a3d43;--cy:#0e7c86;--am:#a8741a;--gr:#4f7a12;color-scheme:light}
+.tbtn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;margin:-6px 0;padding:0;border:0;border-radius:50%;background:none;color:var(--mute);cursor:pointer;transition:color .2s,background .2s}.tbtn:hover{color:var(--ink);background:rgba(128,128,128,.14)}.tbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+nav div{align-items:center}
+nav.mono{font-size:16.5px}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;transition:background .3s,color .3s;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Bricolage Grotesque",system-ui,sans-serif;overflow-x:hidden}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12.5px;color:var(--mute);letter-spacing:.02em}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cy);outline-offset:3px}
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,header,footer{position:relative;z-index:1}
+nav{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;gap:16px;padding:14px 5vw;background:linear-gradient(var(--bg),transparent)}
+nav div{display:flex;gap:30px;flex-wrap:wrap}
+nav a{text-decoration:none}nav a:hover{color:var(--cy)}
+section{padding:14vh 5vw;border-top:1px solid var(--line);max-width:1240px;margin:0 auto}
+h1,h2,h3{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:0}
+h1{font-size:clamp(2.6rem,6.6vw,6rem);max-width:13ch}
+h2{font-size:clamp(2rem,5vw,4rem);max-width:18ch;margin-bottom:5vh}
+h1 .w{display:inline-block;transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s;}
+.hero{min-height:88vh;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);column-gap:4vw;align-items:end;padding:10vh 5vw 8vh;max-width:1600px;margin:0 auto}
+@media (min-width:861px){.heroScroll .hero{height:100vh;min-height:0;padding-top:12vh;padding-bottom:6vh;align-items:center}}
+.hcopy{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:flex-end}
+.portrait{position:relative;margin:0 0 0 auto;width:100%;max-width:calc(72vh*.8)}
+.pstage{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid var(--cy);background:var(--line);box-shadow:0 0 0 6px var(--bg),0 0 0 7px var(--line2),0 0 32px -6px var(--cy)}
+.pstage::before,.pstage::after{display:none}
+.slides{position:absolute;inset:0;z-index:2}
+.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s}.slides img.on{opacity:1}
+.pctl{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.pdot{width:22px;height:16px;border:0;padding:6px 0;margin-left:6px;background:var(--line);background-clip:content-box;cursor:pointer}.pdot[aria-current=true]{background:var(--cy);background-clip:content-box}
+.pstage::before{content:"";position:absolute;inset:-35%;background:radial-gradient(circle at 30% 30%,rgba(98,210,216,.6),transparent 42%),radial-gradient(circle at 72% 58%,rgba(219,165,69,.5),transparent 42%),radial-gradient(circle at 38% 88%,rgba(183,227,90,.32),transparent 40%);filter:blur(28px);animation:drift 16s ease-in-out infinite alternate}
+.pstage::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(235,232,225,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(235,232,225,.06) 1px,transparent 1px);background-size:32px 32px}
+@keyframes drift{0%{transform:translate(-6%,-4%) rotate(0deg) scale(1)}50%{transform:translate(5%,6%) rotate(40deg) scale(1.15)}100%{transform:translate(-3%,4%) rotate(85deg) scale(1)}}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.ph .slot{position:absolute;left:14px;bottom:12px;z-index:3}
+.ph{position:relative;min-height:180px;margin:0;aspect-ratio:4/3;border:1px dashed var(--line2);overflow:hidden;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(235,232,225,.035) 14px 15px);align-self:start}
+.proj .head>.ph{grid-column:2;grid-row:1/4;aspect-ratio:1/1;min-height:0;align-self:start}
+@media (max-width:860px){.hero{grid-template-columns:1fr;min-height:0}.portrait{order:-1;max-width:340px;margin:0 0 5vh}#phint{display:none}.proj .head{grid-template-columns:1fr}.proj .head>.ph{grid-column:1;grid-row:auto;order:5;aspect-ratio:1/1}}
+
+.hero p{max-width:52ch;color:var(--soft);margin:4vh 0}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px}
+.cta{display:inline-block;border:1px solid var(--cy);color:var(--cy);padding:12px 20px;text-decoration:none;font-family:"IBM Plex Mono",monospace;font-size:13px;transition:background .2s,color .2s}
+.cta:hover{background:var(--cy);color:var(--bg)}
+.links{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.narr{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border-top:1px solid var(--line)}
+.narr div{padding:24px 24px 0 0}.narr b{display:block;font-size:1.5rem;letter-spacing:-.02em;font-weight:500}
+.proj{padding:16vh 5vw}
+.proj .head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);column-gap:5vw;row-gap:3vh;align-items:start}
+.proj .head>*{grid-column:1}
+.proj h2{margin-bottom:0;max-width:16ch}
+.lede{max-width:56ch;color:var(--soft);font-size:1.15rem}
+.stats{display:flex;flex-wrap:wrap;gap:4vh 6vw;margin:7vh 0;padding:5vh 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat b{display:block;font-size:clamp(3rem,9vw,7rem);font-weight:300;letter-spacing:-.05em;line-height:.9;font-variant-numeric:tabular-nums}
+.stat.c b{color:var(--cy)}.stat.a b{color:var(--am)}.stat.g b{color:var(--gr)}
+.stat span{display:block;max-width:22ch;margin-top:10px}
+.toggle{background:none;border:1px solid var(--line);color:var(--ink);padding:12px 18px;cursor:pointer;font:500 13px "IBM Plex Mono",monospace}
+.toggle:hover{border-color:var(--cy)}
+.study{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.2,.8,.2,1)}
+.study>div{overflow:hidden}
+.study.open{grid-template-rows:1fr}
+.pipe{display:flex;flex-wrap:wrap;gap:0;margin:5vh 0;counter-reset:s}
+.pipe span{position:relative;padding:14px 18px;border:1px solid var(--line);margin:0 -1px -1px 0;font-family:"IBM Plex Mono",monospace;font-size:12.5px;opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .5s,border-color .5s}
+.study.open .pipe span{opacity:1;transform:none;border-color:var(--line2)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:5vh 4vw;padding-bottom:4vh}
+.cols h3{font-size:1rem;font-weight:500;letter-spacing:0;margin-bottom:8px;color:var(--mute);font-family:"IBM Plex Mono",monospace}
+.cols p,.cols li{margin:0 0 8px;color:var(--soft)}.cols ul{padding-left:18px;margin:0}
+.tags{margin-top:3vh}
+#map{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:5vh 3vw}
+.sys h3{font-size:1.4rem;letter-spacing:-.02em;margin-bottom:14px;font-weight:500}
+.sys h3 i{font-style:normal;color:var(--mute);font-family:"IBM Plex Mono",monospace;font-size:12px;margin-left:8px}
+.sys button{font:400 14px "IBM Plex Mono",monospace;color:var(--ink);background:none;border:1px solid var(--line);border-radius:99px;padding:6px 12px;margin:0 6px 8px 0;cursor:pointer;transition:border-color .2s,color .2s}
+.sys button:hover,.sys button[aria-pressed=true]{border-color:var(--am);color:var(--am)}
+#where{min-height:3.2em;margin-top:5vh;max-width:70ch;border-left:2px solid var(--am);padding-left:16px;color:var(--soft)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:6vh 6vw}
+.two p{max-width:54ch;margin:0 0 16px;color:var(--soft)}
+dl{margin:0}dt{font-weight:500;font-size:1.25rem}dd{margin:2px 0 22px;color:var(--mute)}
+.big{font-size:clamp(2.6rem,8vw,7rem);font-weight:800;letter-spacing:-.045em;line-height:.95;max-width:12ch}
+.contact a.m{display:block;font-size:clamp(1.2rem,3.6vw,2.4rem);text-decoration:none;border-bottom:1px solid var(--line);padding:16px 0;word-break:break-all}
+.contact a.m:hover{color:var(--cy)}
+footer{padding:6vh 5vw 10vh;max-width:1240px;margin:0 auto}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.pstage::before{animation:none}*{transition:none!important;scroll-behavior:auto!important}.rv,.pipe span{opacity:1;transform:none}}
+@media (max-width:560px){nav.mono{font-size:14px}nav div{gap:18px}.pipe span{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<nav class="mono"><a href="#top">Helloo, sup, sup 👋</a><div><a href="#work">Work</a><a href="#think">Approach</a><a href="#universe">Stack</a><a href="#about">About</a><a href="#contact">Contact</a><button class="tbtn" id="theme" type="button"></button></div></nav>
+
+<div class="heroScroll" id="heroScroll"><header class="hero" id="top"><div class="hcopy">
+  <div class="mono" style="margin-bottom:3vh">Aditya Dubey · Jaipur · B.Tech CSE, JECRC University, 2023–2027</div>
+  <h1 id="h1">Building intelligent systems from models to interfaces.</h1>
+  <p>I'm a full-stack developer working across AI, machine learning, backend systems and modern web apps. I train the model, write the API, and build the screen that makes it usable.</p>
+  <div class="links"><a class="cta" href="#work">Explore the work</a><a class="mono" href="#" data-link="github">GitHub</a><a class="mono" href="#" data-link="linkedin">LinkedIn</a></div>
+  <div class="meta mono" style="margin-top:7vh"><span>Python</span><span>PyTorch</span><span>Next.js</span><span>FastAPI</span><span>LLMs</span><span>GNNs</span></div>
+</div>
+  <figure class="portrait" id="portrait" aria-label="Photos of Aditya Dubey"><div class="pstage"><div class="slides" id="slides"></div></div></figure>
+</header></div>
+
+<main>
+<section aria-label="Narrative">
+  <div class="narr mono">
+    <div><b style="color:var(--cy)">Molecules</b>Graphs and latent spaces. A generative model for drug discovery.</div>
+    <div><b style="color:var(--am)">Language</b>Adapters and tokens. A fine-tuned LLM that stays in character.</div>
+    <div><b style="color:var(--gr)">Vision</b>Pixels and gradients. A neural network written without a framework.</div>
+  </div>
+  <p class="lede" style="margin-top:6vh">Three projects, one thread: understand the system underneath, then make it work end to end. The background network follows the same path as you scroll.</p>
+</section>
+
+<div id="work"></div>
+
+<section class="proj" id="p1">
+  <div class="head rv">
+    <div class="mono">Apr 2026 – Jun 2026 · Python, PyTorch, FastAPI, Next.js (React), SELFIES</div>
+    <h2>Generative AI Molecule Synthesizer</h2>
+    <p class="lede">A full-stack Agentic AI platform for drug discovery, from a VAE + GNN model to a Next.js interface.</p>
+    <figure class="ph" data-ph="p1"><span class="mono slot">Project hero image · 4:3</span></figure>
+  </div>
+  <div class="stats">
+    <div class="stat c"><b data-n="50000" data-suf="+">0</b><span class="mono">molecules from ZINC250k used for training</span></div>
+    <div class="stat c"><b data-n="85" data-suf="%">0</b><span class="mono">valid molecule generation</span></div>
+    <div class="stat c"><b data-n="95" data-pre="&gt;" data-suf="%">0</b><span class="mono">target property accuracy</span></div>
+  </div>
+  <button class="toggle" aria-expanded="false" aria-controls="s1">Open case study</button>
+  <div class="study" id="s1"><div>
+    <div class="pipe" role="list" aria-label="Pipeline"><span role="listitem">ZINC250k dataset</span><span role="listitem">SELFIES encoding</span><span role="listitem">VAE</span><span role="listitem">GNN</span><span role="listitem">Molecule generation</span><span role="listitem">FastAPI (async)</span><span role="listitem">Next.js interface</span></div>
+    <div class="cols">
+      <div><h3>Problem</h3><p>Drug discovery needs candidate molecules that are both chemically valid and close to a target property. Generating them is one problem; serving them through a usable product is another.</p></div>
+      <div><h3>Approach</h3><p>A VAE + GNN model pipeline, trained on 50,000+ molecules from ZINC250k, wrapped in an Agentic AI platform with a FastAPI backend and a Next.js/React frontend.</p></div>
+      <div><h3>Engineering decisions</h3><ul><li>SELFIES as the molecule representation.</li><li>Async request processing to reduce API latency.</li><li>Frontend, backend and model serving kept decoupled, so each layer can scale on its own.</li></ul></div>
+    </div>
+    <div class="mono tags">Code: <a href="https://github.com/DroopLoser/Generative-AI-Molecule-Synthesizer_Atom-Forge" data-link="github">GitHub repository</a> · Demo: add link when available</div>
+  </div></div>
+</section>
+
+<section class="proj" id="p2">
+  <div class="head rv">
+    <div class="mono">Jan 2026 – Feb 2026 · LLaMA-3-8B, PyTorch, Hugging Face, PEFT (LoRA), bitsandbytes</div>
+    <h2>Pirate-Styled LLM Fine-Tuning</h2>
+    <p class="lede">Character-consistent dialogue from LLaMA-3-8B, trained by updating a small fraction of its weights.</p>
+    <figure class="ph" data-ph="p2"><span class="mono slot">Project hero image · 4:3</span></figure>
+  </div>
+  <div class="stats">
+    <div class="stat a"><b data-n="20.9" data-dec="1" data-suf="M">0</b><span class="mono">trainable parameters, out of 8.05B</span></div>
+    <div class="stat a"><b data-n="3000" data-sep="1">0</b><span class="mono">instruction-following pairs, custom dataset</span></div>
+    <div class="stat a"><b data-n="70" data-suf="+">0</b><span class="mono">character traits covered</span></div>
+  </div>
+  <button class="toggle" aria-expanded="false" aria-controls="s2">Open case study</button>
+  <div class="study" id="s2"><div>
+    <div class="pipe" role="list" aria-label="Pipeline"><span role="listitem">Custom 3,000-pair dataset</span><span role="listitem">4-bit quantization</span><span role="listitem">LoRA adapters</span><span role="listitem">Fine-tuning</span><span role="listitem">Evaluation</span><span role="listitem">Character-consistent generation</span></div>
+    <div class="cols">
+      <div><h3>Problem</h3><p>A general-purpose model answers well but doesn't hold a persona. The goal was dialogue that stays in character across many traits.</p></div>
+      <div><h3>Approach</h3><p>Fine-tune LLaMA-3-8B with LoRA on a 4-bit quantized model, using a dataset built for this project. An end-to-end training and evaluation pipeline in Hugging Face and PyTorch.</p></div>
+      <div><h3>Engineering decisions</h3><ul><li>Quantize first, then train adapters, so an 8B model stays practical to tune.</li><li>Trainable parameters cut to 20.9M of 8.05B.</li><li>Dataset designed around 70+ traits instead of reusing a generic one.</li></ul></div>
+    </div>
+    <div class="mono tags">Code: <a href="https://github.com/DroopLoser/Captain-Jack-Sparrow-LLM" target="_blank">GitHub repository</a></div>
+  </div></div>
+</section>
+
+<section class="proj" id="p3">
+  <div class="head rv">
+    <div class="mono">Feb 2026 – Mar 2026 · Python, NumPy, Pandas</div>
+    <h2>Handwritten Digit &amp; Doodle Image Recognition</h2>
+    <p class="lede">A neural network built from scratch, with no ML framework, to understand what the frameworks do.</p>
+    <figure class="ph" data-ph="p3"><span class="mono slot">Project hero image · 4:3</span></figure>
+  </div>
+  <div class="stats">
+    <div class="stat g"><b data-n="92" data-suf="%">0</b><span class="mono">MNIST accuracy</span></div>
+    <div class="stat g"><b data-n="75" data-suf="%">0</b><span class="mono">Quick, Draw! accuracy</span></div>
+    <div class="stat g"><b data-n="28" data-suf="×28">0</b><span class="mono">pixel images, preprocessed</span></div>
+  </div>
+  <button class="toggle" aria-expanded="false" aria-controls="s3">Open case study</button>
+  <div class="study" id="s3"><div>
+    <div class="pipe" role="list" aria-label="Pipeline"><span role="listitem">28×28 pixels</span><span role="listitem">Preprocessing</span><span role="listitem">Forward propagation (ReLU, Softmax)</span><span role="listitem">Loss</span><span role="listitem">Backpropagation</span><span role="listitem">Gradient descent</span><span role="listitem">Prediction</span></div>
+    <div class="cols">
+      <div><h3>Problem</h3><p>Library calls hide the mechanics. I wanted to implement every step and see where accuracy comes from.</p></div>
+      <div><h3>Approach</h3><p>Forward and backpropagation, ReLU, Softmax and gradient descent, written in Python, NumPy and Pandas. Custom metrics to benchmark performance on both datasets.</p></div>
+      <div><h3>Engineering decisions</h3><ul><li>No ML frameworks, by design.</li><li>Custom evaluation metrics instead of off-the-shelf scoring.</li><li>Also reinforced core data structures and algorithms.</li></ul></div>
+    </div>
+    <div class="mono tags">Code: <a href="https://github.com/DroopLoser/Handwritten-number-and-doodle-recognizer" data-link="github">GitHub repository</a></div>
+  </div></div>
+</section>
+
+<section id="think">
+  <h2 class="rv">How I think</h2>
+  <div class="two">
+    <p class="rv">I like to own the whole path. The molecule project runs from dataset to browser: model, API, interface. Each layer stays separate enough to change without breaking the others.</p>
+    <p class="rv">I'd rather understand the mechanism than lean on an abstraction. The digit classifier exists because I wanted to write backpropagation myself. The LoRA project came from asking how little of a model you actually need to change.</p>
+    <p class="rv">A model is only useful once someone can use it. That is why the work pairs PyTorch with FastAPI and Next.js.</p>
+    <p class="rv">Experiments should end in numbers: 85% valid generation, 92% on MNIST, 20.9M trainable parameters. I build, measure, then decide what to do next.</p>
+  </div>
+</section>
+
+<section id="universe">
+  <h2 class="rv">Technical universe</h2>
+  <div id="map">
+    <div class="sys"><h3>AI / ML<i>models</i></h3></div>
+    <div class="sys"><h3>Engineering<i>products</i></h3></div>
+    <div class="sys"><h3>Cloud / Infrastructure<i>delivery</i></h3></div>
+  </div>
+  <p id="where" class="mono" aria-live="polite">Select a technology to see where it appears in my work.</p>
+</section>
+
+<section id="education">
+  <h2 class="rv">Education</h2>
+  <dl>
+    <dt>B.Tech, Computer Science and Engineering</dt><dd class="mono">JECRC University, Jaipur · 2023–2027 · CGPA 8.57/10.00</dd>
+    <dt>Senior Secondary Education (CBSE)</dt><dd class="mono">St. Anselm's North City School, Jaipur · 2023 · got 69 in 12 btw😔</dd>
+  </dl>
+</section>
+
+<section id="achievements">
+  <h2 class="rv">Achievements</h2>
+  <dl>
+    <dt>NASA Space Apps Challenge 2024</dt><dd class="mono">Global Nominee</dd>
+    <dt>4+ hackathons</dt><dd class="mono">Participations</dd>
+    <dt>IAESTE community</dt><dd class="mono">Generated international internship offers with NGOs</dd>
+    <dt>Google Cloud Career Readiness Program</dt><dd class="mono">GCP, IAM, VPC, GKE, Terraform</dd>
+  </dl>
+</section>
+
+<section id="about">
+  <h2 class="rv">About</h2>
+  <div class="two">
+    <p class="rv">I'm a computer science student in Jaipur who likes to build things all the way through. I started with data structures and algorithms, then moved into neural networks, language models and generative systems, and into the web stack that puts them in front of people.</p>
+    <p class="rv">I'm most interested in where models meet real software: graph neural networks for molecules, fine-tuned language models, and agentic applications. I'm looking for places to keep experimenting and to ship.</p>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="big rv">Let's build something intelligent.</div>
+  <div style="margin-top:8vh">
+    <a class="m" href="mailto:dubeyadi824@gmail.com">dubeyadi824@gmail.com</a>
+    <a class="m" href="tel:+919166196201">+91 9166196201</a>
+    <a class="m" href="https://www.linkedin.com/in/aditya-dubey-engineer/">LinkedIn</a>
+    <a class="m" href="https://github.com/DroopLoser">GitHub</a>
+  </div>
+</section>
+</main>
+<footer class="mono">Aditya Dubey · Jaipur · Built from my resume</footer>
+
+<script>
+// Set your real profile URLs here.
+const LINKS={github:"https://github.com/DroopLoser",linkedin:"https://www.linkedin.com/in/aditya-dubey-engineer/"};
+// Add image paths or URLs here. Empty = placeholder stays.
+const svg=b=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'><rect width='800' height='600' fill='#101216'/>${b}<text x='24' y='578' fill='#8d939c' font-family='monospace' font-size='18'>placeholder image - replace in PHOTOS</text></svg>`);
+function art1(){let o="";const hex=(cx,cy,r)=>{const p=[...Array(6)].map((_,i)=>[cx+r*Math.cos(i*Math.PI/3),cy+r*Math.sin(i*Math.PI/3)]);o+=`<polygon points='${p.map(q=>q.join(",")).join(" ")}' fill='none' stroke='#62d2d8' stroke-width='2.5' opacity='.85'/>`;p.forEach(q=>o+=`<circle cx='${q[0]}' cy='${q[1]}' r='8' fill='#62d2d8'/>`);return p};
+const a=hex(300,320,105);hex(300+182,320-105,105);
+[[a[3],-60,-50],[a[4],-20,70],[a[2],10,60]].forEach(([q,dx,dy],i)=>{o+=`<line x1='${q[0]}' y1='${q[1]}' x2='${q[0]+dx}' y2='${q[1]+dy}' stroke='#dba545' stroke-width='2.5'/><circle cx='${q[0]+dx}' cy='${q[1]+dy}' r='${i?11:14}' fill='#dba545'/>`});return svg(o)}
+function art2(){let o="";for(let r=0;r<9;r++){let x=70;for(let c=0;c<6;c++){const w=50+((r*37+c*53)%70),hi=(r*5+c*3)%7===0;o+=`<rect x='${x}' y='${70+r*52}' width='${w}' height='30' fill='${hi?"#dba545":"none"}' stroke='#dba545' stroke-width='1.5' opacity='${hi?.95:.4}'/>`;x+=w+14}}return svg(o)}
+function art3(){let o="";for(let r=0;r<28;r++)for(let c=0;c<28;c++){const on=(r>=5&&r<=8&&c>=7&&c<=21)||(r>8&&r<=23&&Math.abs(c-(21-(r-8)*.62))<2.2);o+=`<rect x='${148+c*18}' y='${40+r*18}' width='15' height='15' fill='#b7e35a' opacity='${on?.9:.08}'/>`}return svg(o)}
+const PHOTOS={
+  p1:"molecule.png",
+  p2:"pirate-llm.png",
+  p3:"digits.png"
+};
+// Your portrait: image path or URL. Empty = placeholder.
+const PORTRAIT="IMG20240704160008.jpg.jpeg";
+document.querySelectorAll("[data-ph]").forEach(f=>{const u=PHOTOS[f.dataset.ph];if(!u)return;const i=new Image();i.src=u;i.alt=f.dataset.ph==="me"?"Portrait of Aditya Dubey":"";f.appendChild(i);f.querySelector(".slot")?.remove()});
+document.querySelectorAll("a[data-link]").forEach(a=>{const u=LINKS[a.dataset.link];if(u&&(a.getAttribute("href")||"#")==="#")a.href=u});
+document.querySelectorAll('a[href^="http"]').forEach(a=>{a.target="_blank";a.rel="noopener noreferrer"});
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+// Headline: one orchestrated reveal
+const h1=document.getElementById("h1");
+h1.innerHTML=h1.textContent.split(" ").map(w=>`<span class="w" style="opacity:${RM?1:0};transform:translateY(${RM?0:40}px)">${w}</span>`).join(" ");
+if(!RM)requestAnimationFrame(()=>h1.querySelectorAll(".w").forEach((s,i)=>setTimeout(()=>{s.style.opacity=1;s.style.transform="none"},120+i*110)));
+
+// Reveal + count-up
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add("in");
+  e.target.closest(".proj")?.querySelectorAll("[data-n]").forEach(c=>{if(c.dataset.done)return;c.dataset.done=1;count(c)});io.unobserve(e.target)}),{threshold:.25});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!e.target.dataset.done){e.target.dataset.done=1;count(e.target)}}),{threshold:.6});
+document.querySelectorAll("[data-n]").forEach(e=>io2.observe(e));
+function fmt(c,v){const d=+c.dataset.dec||0;let s=v.toFixed(d);if(c.dataset.sep||c.dataset.n>=10000)s=Math.round(v).toLocaleString("en-US");return (c.dataset.pre||"")+s+(c.dataset.suf||"")}
+function count(c){const n=+c.dataset.n;if(RM){c.textContent=fmt(c,n);return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-p,4);c.textContent=fmt(c,n*e);if(p<1)requestAnimationFrame(f)})(t0)}
+
+// Case studies
+document.querySelectorAll(".toggle").forEach(b=>b.addEventListener("click",()=>{const s=document.getElementById(b.getAttribute("aria-controls")),o=s.classList.toggle("open");b.setAttribute("aria-expanded",o);b.textContent=o?"Close case study":"Open case study";
+  s.querySelectorAll(".pipe span").forEach((x,i)=>x.style.transitionDelay=o?i*90+"ms":"0ms")}));
+
+// Technical universe
+const U={
+"AI / ML":{"PyTorch":"Molecule Synthesizer, Pirate LLM fine-tuning.","Hugging Face":"Pirate LLM training and evaluation pipeline.","GNNs":"Graph neural network stage of the Molecule Synthesizer.","VAEs":"Variational autoencoder stage of the Molecule Synthesizer.","Computer Vision":"Handwritten digit and doodle recognition.","Generative AI":"Molecule Synthesizer.","LLM Fine-Tuning":"Pirate LLM on LLaMA-3-8B.","LoRA / PEFT":"Pirate LLM: 20.9M trainable parameters out of 8.05B.","Agentic AI":"Molecule Synthesizer platform."},
+"Engineering":{"Python":"All three projects.","JavaScript":"Listed in my skills; used alongside React and Next.js.","React":"Molecule Synthesizer frontend.","Next.js":"Molecule Synthesizer frontend.","FastAPI":"Molecule Synthesizer backend and RESTful APIs.","Async processing":"Molecule Synthesizer: reduced API latency.","System design":"Molecule Synthesizer: decoupled frontend, backend and model serving.","NumPy / Pandas":"Digit and doodle recognition."},
+"Cloud / Infrastructure":{"GCP":"Google Cloud Career Readiness Program.","IAM":"Google Cloud Career Readiness Program.","VPC":"Google Cloud Career Readiness Program.","GKE":"Google Cloud Career Readiness Program.","Terraform":"Google Cloud Career Readiness Program.","Docker":"Listed in my skills.","CI/CD":"Listed in my skills, at a fundamentals level."}};
+const where=document.getElementById("where");
+document.querySelectorAll("#map .sys").forEach(sys=>{const g=sys.querySelector("h3").childNodes[0].textContent;
+  Object.entries(U[g]).forEach(([k,v])=>{const b=document.createElement("button");b.textContent=k;b.setAttribute("aria-pressed","false");
+  const show=()=>{document.querySelectorAll("#map button").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");where.textContent=k+" — "+v};
+  b.onclick=show;b.onmouseenter=show;sys.appendChild(b)})});
+
+// Portrait: fluid gradient blob carrying one image
+const slEl=document.getElementById("slides"),pf=document.getElementById("portrait"),st=pf.querySelector(".pstage");
+const sil="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 750'><rect width='600' height='750' fill='#14222a'/><circle cx='300' cy='300' r='105' fill='#62d2d8' opacity='.6'/><ellipse cx='300' cy='720' rx='220' ry='190' fill='#62d2d8' opacity='.4'/><text x='300' y='500' text-anchor='middle' fill='#ebe8e1' font-family='monospace' font-size='24'>your photo here</text></svg>`);
+const norm=u=>{u=(u||"").trim().replace(/\\/g,"/");if(/^(https?:|data:|blob:)/i.test(u))return u;try{return encodeURI(decodeURI(u))}catch(e){return u}};
+const im=new Image();im.alt="Portrait of Aditya Dubey";im.className="on";
+im.onerror=()=>{im.onerror=null;im.src=sil;console.warn("Portrait image not found:",PORTRAIT);const m=document.createElement("div");m.className="mono";m.style.cssText="position:absolute;left:0;right:0;bottom:22%;text-align:center;z-index:3;padding:0 14%;color:#ebe8e1;font-size:12px;word-break:break-all";m.textContent="Can't load: "+PORTRAIT;slEl.appendChild(m)};
+im.src=PORTRAIT?norm(PORTRAIT):sil;slEl.appendChild(im);
+
+// Theme
+const root=document.documentElement,tb=document.getElementById("theme");
+const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>';
+function setTheme(t,save){root.dataset.theme=t;tb.innerHTML=t==="dark"?SUN:MOON;tb.setAttribute("aria-label","Switch to "+(t==="dark"?"light":"dark")+" mode");if(save){try{localStorage.setItem("theme",t)}catch(e){}}}
+let savedT;try{savedT=localStorage.getItem("theme")}catch(e){}
+setTheme("light");
+tb.onclick=()=>setTheme(root.dataset.theme==="dark"?"light":"dark",true);
+
+// Generative field: molecule -> language -> vision, driven by scroll
+const cv=document.getElementById("field"),ctx=cv.getContext("2d");let W,H,dpr;
+function size(){dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+size();addEventListener("resize",size);
+const N=196;
+function mol(i,s){const r=(i%7),c=Math.floor(i/7),a=(r/6)*Math.PI*2+c*.5,R=s*(.06+.012*(c%9));const cx=(c%4-1.5)*s*.3,cy=(Math.floor(c/4)%4-1.5)*s*.22;return[cx+Math.cos(a)*R,cy+Math.sin(a)*R]}
+function lang(i,s){const row=i%7,col=Math.floor(i/7);return[(col/27-.5)*s*1.5,(row-3)*s*.09+Math.sin(col*.6)*s*.05]}
+function vis(i,s){const g=14,x=i%g,y=Math.floor(i/g);return[(x-6.5)*s*.065,(y-6.5)*s*.065]}
+const colsD=[[98,210,216],[219,165,69],[183,227,90]],colsL=[[7,114,128],[179,112,13],[66,117,9]];
+let sp=0,tsp=0,mx=-9999,my=-9999,sx=-9999,sy=-9999;
+addEventListener("scroll",()=>{const m=document.documentElement.scrollHeight-innerHeight;tsp=m>0?scrollY/m:0},{passive:true});
+addEventListener("pointermove",e=>{mx=e.clientX;my=e.clientY;if(sx<-9000){sx=mx;sy=my}});
+const off=()=>{mx=my=sx=sy=-9999};document.addEventListener("pointerleave",off);addEventListener("pointerup",e=>{if(e.pointerType!=="mouse")off()});
+function smooth(t){return t*t*(3-2*t)}
+function frame(t){sp+=(tsp-sp)*.06;const s=Math.min(W,H*1.3)*.9,p=Math.min(1,sp*1.6)*2;const a=p<1?0:1,k=smooth(p<1?p:p-1);
+  const A=[mol,lang,vis],f1=A[a],f2=A[Math.min(2,a+1)];
+  const ci=Math.min(1,p),cols=root.dataset.theme==='light'?colsL:colsD,col=cols[Math.floor(Math.min(1.999,p))],c2=cols[Math.min(2,Math.floor(p)+1)];
+  const rgb=col.map((v,i)=>Math.round(v+(c2[i]-v)*k));
+  ctx.clearRect(0,0,W,H);sx+=(mx-sx)*.22;sy+=(my-sy)*.22;const ox=W*(W<700?.5:.68),oy=H*.5,pts=[],R=RM?0:150;
+  for(let i=0;i<N;i++){const u=f1(i,s),v=f2(i,s),jx=RM?0:Math.sin(t/800+i)*9,jy=RM?0:Math.cos(t/950+i*1.7)*9;let x=ox+u[0]+(v[0]-u[0])*k+jx,y=oy+u[1]+(v[1]-u[1])*k+jy,h=0;const dx=x-sx,dy=y-sy,d=Math.hypot(dx,dy);if(R&&d<R&&d>.01){h=1-d/R;const f=h*h*58;x+=dx/d*f;y+=dy/d*f}pts.push([x,y,h])}
+  const L=root.dataset.theme==='light',maxD=s*.095;ctx.lineWidth=L?.95:.7;
+  for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i][0]-pts[j][0],dy=pts[i][1]-pts[j][1],d=dx*dx+dy*dy;if(d<maxD*maxD){ctx.strokeStyle=`rgba(${rgb},${(L?.5:.32)*(1-Math.sqrt(d)/maxD)})`;ctx.beginPath();ctx.moveTo(pts[i][0],pts[i][1]);ctx.lineTo(pts[j][0],pts[j][1]);ctx.stroke()}}
+  ctx.fillStyle=`rgba(${rgb},${L?.88:.75})`;pts.forEach(q=>{ctx.beginPath();ctx.arc(q[0],q[1],(L?2.15:1.8)+q[2]*2.6,0,7);ctx.fill()});
+  if(!RM||Math.abs(tsp-sp)>.001)requestAnimationFrame(frame);else setTimeout(()=>requestAnimationFrame(frame),200)}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
