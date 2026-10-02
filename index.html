@@ -90,11 +90,60 @@ footer{padding:6vh 5vw 10vh;max-width:1240px;margin:0 auto}
 .rv{opacity:0;transform:translateY(18px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.pstage::before{animation:none}*{transition:none!important;scroll-behavior:auto!important}.rv,.pipe span{opacity:1;transform:none}}
 @media (max-width:560px){nav.mono{font-size:14px}nav div{gap:18px}.pipe span{flex:1 1 100%}}
+
+/* ===== Mobile additions (desktop layout untouched) ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.nl{display:contents}
+.mbtn{display:none}
+.mbtn .m2{display:none}
+nav.open .mbtn .m1{display:none}nav.open .mbtn .m2{display:inline}
+@media (max-width:860px){
+  .hero{padding:6vh 5vw 6vh}
+  .portrait{max-width:min(340px,78vw)}
+  section{padding:10vh 5vw}
+  .proj{padding:10vh 5vw}
+  h2{margin-bottom:4vh}
+  .stats{margin:5vh 0;padding:4vh 0}
+}
+@media (max-width:720px){
+  nav{padding:10px 5vw;align-items:center}
+  nav div{gap:6px;flex-wrap:nowrap}
+  nav.mono{font-size:15px}
+  nav>a{min-height:44px;display:inline-flex;align-items:center}
+  .tbtn{width:44px;height:44px;margin:0}
+  .mbtn{display:inline-flex}
+  .nl{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:4px 5vw 14px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 18px 30px -18px rgba(0,0,0,.35)}
+  nav.open{background:var(--bg)}
+  nav.open .nl{display:flex}
+  .nl a{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .nl a:last-child{border-bottom:0}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .mono{font-size:13px}
+  .hero{min-height:0}
+  .hero p{margin:3vh 0}
+  .links{gap:14px 20px}
+  .cta{padding:14px 22px;font-size:14px}
+  .links a.mono{padding:10px 0}
+  .meta{margin-top:5vh!important}
+  .narr div{padding:20px 0 0}
+  .stats{gap:4vh 8vw}
+  .stat b{font-size:clamp(2.6rem,15vw,4rem)}
+  .toggle{width:100%;min-height:48px;font-size:14px}
+  .pipe span{padding:12px 14px}
+  .sys button{padding:10px 14px;margin:0 8px 10px 0;font-size:14px}
+  #where{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);padding:12px 14px 12px 16px;margin-top:4vh;box-shadow:0 0 0 1px var(--line)}
+  .contact a.m{padding:18px 0}
+  dt{font-size:1.15rem}
+  footer{padding:5vh 5vw 8vh}
+}
+@media (hover:none){.cta:hover{background:none;color:var(--cy)}.sys button:hover{border-color:var(--line);color:var(--ink)}.sys button[aria-pressed=true]{border-color:var(--am);color:var(--am)}}
 </style>
 </head>
 <body>
 <canvas id="field" aria-hidden="true"></canvas>
-<nav class="mono"><a href="#top">Helloo, sup, sup 👋</a><div><a href="#work">Work</a><a href="#think">Approach</a><a href="#universe">Stack</a><a href="#about">About</a><a href="#contact">Contact</a><button class="tbtn" id="theme" type="button"></button></div></nav>
+<nav class="mono"><a href="#top">Helloo, sup, sup 👋</a><div><span class="nl" id="nl"><a href="#work">Work</a><a href="#think">Approach</a><a href="#universe">Stack</a><a href="#about">About</a><a href="#contact">Contact</a></span><button class="tbtn" id="theme" type="button"></button><button class="tbtn mbtn" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nl"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="m1" d="M4 7h16M4 12h16M4 17h16"/><path class="m2" d="M6 6l12 12M18 6L6 18"/></svg></button></div></nav>
 
 <div class="heroScroll" id="heroScroll"><header class="hero" id="top"><div class="hcopy">
   <div class="mono" style="margin-bottom:3vh">Aditya Dubey · Jaipur · B.Tech CSE, JECRC University, 2023–2027</div>
@@ -306,6 +355,15 @@ const norm=u=>{u=(u||"").trim().replace(/\\/g,"/");if(/^(https?:|data:|blob:)/i.
 const im=new Image();im.alt="Portrait of Aditya Dubey";im.className="on";
 im.onerror=()=>{im.onerror=null;im.src=sil;console.warn("Portrait image not found:",PORTRAIT);const m=document.createElement("div");m.className="mono";m.style.cssText="position:absolute;left:0;right:0;bottom:22%;text-align:center;z-index:3;padding:0 14%;color:#ebe8e1;font-size:12px;word-break:break-all";m.textContent="Can't load: "+PORTRAIT;slEl.appendChild(m)};
 im.src=PORTRAIT?norm(PORTRAIT):sil;slEl.appendChild(im);
+
+
+// Mobile menu
+const navEl=document.querySelector("nav"),mb=document.getElementById("menu");
+function setMenu(o){navEl.classList.toggle("open",o);mb.setAttribute("aria-expanded",o);mb.setAttribute("aria-label",o?"Close menu":"Open menu")}
+mb.onclick=()=>setMenu(!navEl.classList.contains("open"));
+document.querySelectorAll("#nl a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
+addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
+matchMedia("(min-width:721px)").addEventListener("change",e=>{if(e.matches)setMenu(false)});
 
 // Theme
 const root=document.documentElement,tb=document.getElementById("theme");
