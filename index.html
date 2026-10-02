@@ -139,6 +139,42 @@ nav.open .mbtn .m1{display:none}nav.open .mbtn .m2{display:inline}
   footer{padding:5vh 5vw 8vh}
 }
 @media (hover:none){.cta:hover{background:none;color:var(--cy)}.sys button:hover{border-color:var(--line);color:var(--ink)}.sys button[aria-pressed=true]{border-color:var(--am);color:var(--am)}}
+
+/* ===== Mobile v2: structured project cards + calmer background (phones only) ===== */
+@media (max-width:860px){.proj .head{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:720px){
+  nav{background:linear-gradient(var(--bg) 82%,transparent)}
+  #field{opacity:.26}
+  :root[data-theme="light"] #field{opacity:.17}
+
+  body{counter-reset:pj}
+  .proj{counter-increment:pj;padding:7vh 5vw}
+  .proj .head{row-gap:12px}
+  .proj .head::before{grid-column:1;content:"Project 0" counter(pj) " / 03";order:0;font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--cy);margin-top:6px}
+  .proj .head>.ph{order:-1;aspect-ratio:16/10;margin-bottom:6px}
+  .proj .head>.mono{font-size:12px;line-height:1.55}
+  .proj h2{font-size:clamp(1.8rem,8.4vw,2.3rem);line-height:1.04;max-width:none}
+  .proj .lede{font-size:1.02rem;line-height:1.55}
+
+  .stats{display:grid;gap:0;margin:26px 0 22px;padding:0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line)}
+  .stat{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;column-gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+  .stat:first-child{border-top:0}
+  .stat b{font-size:clamp(2rem,9.6vw,2.8rem)}
+  .stat span{margin-top:0;max-width:none;line-height:1.4}
+
+  .toggle{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:52px;padding:0 18px;border-color:var(--line2)}
+  .toggle::after{content:"+";font-size:20px;line-height:1;color:var(--cy)}
+  .toggle[aria-expanded="true"]::after{content:"\2212"}
+
+  .pipe{flex-direction:column;margin:26px 0 8px}
+  .pipe span{flex:none;display:flex;align-items:baseline;gap:14px;counter-increment:s;padding:12px 14px;margin:0 0 -1px 0}
+  .pipe span::before{content:counter(s,decimal-leading-zero);color:var(--cy);font-size:11px}
+  .cols{gap:0;padding-bottom:0}
+  .cols>div{padding:18px 0 6px;border-top:1px solid var(--line)}
+  .cols>div:first-child{border-top:0}
+  .cols h3{text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;margin-bottom:10px}
+  .tags{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);line-height:1.9}
+}
 </style>
 </head>
 <body>
