@@ -144,14 +144,17 @@ nav.open .mbtn .m1{display:none}nav.open .mbtn .m2{display:inline}
 @media (max-width:860px){.proj .head{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){
   nav{background:linear-gradient(var(--bg) 82%,transparent)}
-  #field{opacity:.26}
-  :root[data-theme="light"] #field{opacity:.17}
+  #field{opacity:.42}
+  :root[data-theme="light"] #field{opacity:.3}
 
   body{counter-reset:pj}
   .proj{counter-increment:pj;padding:7vh 5vw}
   .proj .head{row-gap:12px}
   .proj .head::before{grid-column:1;content:"Project 0" counter(pj) " / 03";order:0;font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--cy);margin-top:6px}
-  .proj .head>.ph{order:-1;aspect-ratio:16/10;margin-bottom:6px}
+  .proj .head>.ph{order:-1;aspect-ratio:auto;min-height:0;margin-bottom:6px}
+  .proj .head>.ph:not(:has(img)){aspect-ratio:16/10}
+  .proj .head>.ph img{position:relative;inset:auto;display:block;width:100%;height:auto;object-fit:contain}
+  .proj .head>.ph:has(img){border-style:solid;border-color:var(--line)}
   .proj .head>.mono{font-size:12px;line-height:1.55}
   .proj h2{font-size:clamp(1.8rem,8.4vw,2.3rem);line-height:1.04;max-width:none}
   .proj .lede{font-size:1.02rem;line-height:1.55}
